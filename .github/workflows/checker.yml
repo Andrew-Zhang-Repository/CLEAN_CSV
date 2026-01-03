@@ -6,10 +6,29 @@ on:
       ["main"]
 
 jobs:
-  build:
 
+  build:
     runs-on: ubuntu-latest
-  
+    services:
+      postgres:
+
+        image: postgres:16.6-alpine
+      
+        env:
+          POSTGRES_DB: CSV
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        
+        ports:
+          - 5432:5432
+      
+        options: >-
+          --health-cmd pg_isready #health-cmd="pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        
+
     steps:
     
       - uses: actions/checkout@v5
@@ -24,8 +43,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name : run test csv file
-        run : python main.py -path "your_CSV_files/jobs.csv" -analysis True
+      - name: Run application tests
+      
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_NAME: CSV
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+        run: python main.py -path "your_CSV_files/jobs.csv" -analysis True
 
           
           

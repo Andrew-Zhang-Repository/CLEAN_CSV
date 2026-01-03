@@ -3,7 +3,7 @@ import sys
 import hash
 import pytz
 import os
-import cache
+# import cache
 import time
 import json
 from datetime import datetime
@@ -97,7 +97,7 @@ def insert_file(id,path,text):
 		"user_id" : str(fetch[3])
 	}
 
-	cache.add_to_cache_files(redis_dic)
+	# cache.add_to_cache_files(redis_dic)
 	
 
 	conn.commit()
@@ -178,13 +178,14 @@ def log_on(email,password_attempt):
 
 	return None
 
-def get_all_cached_files(user_id):
+"""def get_all_cached_files(user_id):
 
     key = f"file_data_user:{user_id}"
     encoded_files = cache.r.lrange(key, 0, -1)
     decoded_files = [json.loads(f) for f in encoded_files]
     
     return decoded_files
+"""
 
 def get_user_files(id):
 
@@ -202,10 +203,11 @@ def get_user_files(id):
 
 	vector = cursor.fetchall()
 
-	if get_all_cached_files(id) != []:
+	"""if get_all_cached_files(id) != []:
 		get_text(get_all_cached_files(id),"redis")
 	else:
 		get_text(vector,None)
+	"""
 	
 	conn.close()
 
