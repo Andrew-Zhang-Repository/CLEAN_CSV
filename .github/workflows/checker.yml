@@ -51,6 +51,7 @@ jobs:
           POSTGRES_NAME: CSV
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 123
+          OPENAI_API_KEY: ${{ secrets.open_ai }}
 
         run: python main.py -path "your_CSV_files/jobs.csv" -analysis True
 
