@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_DB: CSV
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: 123
         
         ports:
           - 5432:5432
@@ -50,7 +50,7 @@ jobs:
           POSTGRES_PORT: 5432
           POSTGRES_NAME: CSV
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: 123
 
         run: python main.py -path "your_CSV_files/jobs.csv" -analysis True
 
