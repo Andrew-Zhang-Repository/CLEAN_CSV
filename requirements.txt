@@ -1,0 +1,11 @@
+csv_trimming == 1.1.1
+pandas == 2.3.3
+redis == 7.1.0
+flask == 3.1.2
+python-dotenv == 1.2.1
+psycopg2 == 2.9.11
+pytz == 2025.2
+argon2-cffi == 25.1.0
+passlib == 1.7.4
+langchain-openai == 1.1.6
+openai == 2.14.0
