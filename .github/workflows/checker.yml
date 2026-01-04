@@ -8,7 +8,8 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    
     services:
       postgres:
 
@@ -32,17 +33,26 @@ jobs:
     steps:
     
       - uses: actions/checkout@v5
+
+      - name: Setup Scoop
+        uses: MinoruSekine/setup-scoop@v1
       
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Verify Scoop installation and installed packages
+        run: |
+          scoop --version
+          scoop install qsv
+         
       - name: Run application tests
       
         env:
