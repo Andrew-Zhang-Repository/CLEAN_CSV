@@ -40,6 +40,14 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
 
+      - name: install qsv
+        run: |
+          wget -O - https://dathere.github.io/qsv-deb-releases/qsv-deb.gpg | sudo gpg --dearmor -o /usr/share/keyrings/qsv-deb.gpg
+          echo "deb [signed-by=/usr/share/keyrings/qsv-deb.gpg] https://dathere.github.io/qsv-deb-releases ./" | sudo tee /etc/apt/sources.list.d/qsv.list
+          sudo apt update
+          sudo apt install qsv
+            
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
