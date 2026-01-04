@@ -110,7 +110,7 @@ def get_ai_modes(analysis,summary,scan,path):
     return return_str
 
 if __name__ == "__main__":
-
+    DB.init_tables()
     main()
 
     # Add sort arg and connect with the ai stuff and then add DB stuff
