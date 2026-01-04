@@ -28,6 +28,20 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      redis:
+
+        image: redis
+
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+        ports:
+
+          - 6379:6379
         
 
     steps:
@@ -61,6 +75,11 @@ jobs:
           POSTGRES_NAME: CSV
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 123
+
+
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+
           OPENAI_API_KEY: ${{ secrets.open_ai }}
 
         run: python main.py -path "your_CSV_files/jobs.csv" -analysis True -diff True
