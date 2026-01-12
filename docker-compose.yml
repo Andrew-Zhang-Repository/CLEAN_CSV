@@ -3,7 +3,7 @@
 services:
   # Service 1: Your Python Script
   agent:
-    image: streamlit                
+    image: streamlit-app               
     volumes:
       - .:/app
 
