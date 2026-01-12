@@ -1,0 +1,46 @@
+
+
+services:
+  # Service 1: Your Python Script
+  agent:
+    image: streamlit                
+    volumes:
+      - .:/app
+
+    env_file:
+      - SRC/init.env
+
+    working_dir: /app/SRC/APP
+
+    command: streamlit run main.py --server.port=8501 --server.address=0.0.0.0
+
+    ports:                
+    - "8501:8501"
+
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DB_HOST=postgres_db       
+      - REDIS_HOST=redis_db       
+    depends_on:
+      - postgres_db
+      - redis_db
+
+ 
+  postgres_db:
+    image: postgres:15           
+    restart: always
+    environment:
+      POSTGRES_USER: postgres       
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: CSV
+    volumes:
+      - pg_data:/var/lib/postgresql/data 
+
+ 
+  redis_db:
+    image: redis:alpine          
+    restart: always
+
+
+volumes:
+  pg_data:

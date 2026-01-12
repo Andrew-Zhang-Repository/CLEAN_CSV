@@ -35,9 +35,8 @@ def simple_correlation_callback(
 
     return False, current_row
 
-def clean_up_and_trim(path):
+def clean_up_and_trim(df):
 
-    df = pd.read_csv(path)
 
     trimmer = CSVTrimmer()
 

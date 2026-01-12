@@ -5,8 +5,8 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv("init.env")
-redis_host = os.getenv("REDIS_HOST")
+load_dotenv(os.path.join("..", "init.env"))
+redis_host = os.getenv("REDIS_HOST","localhost")
 redist_port = os.getenv("REDIS_PORT")
 
 
@@ -23,7 +23,6 @@ def add_to_cache_user(user_data):
 def add_to_cache_files(file_data):
     key = "file_data_user:" + file_data['user_id']
     json_user_data = json.dumps(file_data)
-    print(key)
     r.rpush(key,json_user_data)
     r.expire(key,86400)
    

@@ -11,10 +11,10 @@ from dotenv import load_dotenv
 
 output_folder_text = "text_history"
 
-load_dotenv("init.env")
+load_dotenv(os.path.join("..", "init.env"))
 
 
-host = os.getenv("POSTGRES_HOST")
+host = os.getenv("DB_HOST","localhost")
 db_name = os.getenv("POSTGRES_NAME")
 user = os.getenv("POSTGRES_USER")
 password = os.getenv("POSTGRES_PASSWORD")
@@ -76,7 +76,7 @@ def insert_user(email, password, option):
 
 	return id
 
-def insert_file(id,path,text):
+def insert_file(id,name,size,text):
 
 	query = '''INSERT INTO File_info (user_id, file_name, file_size, ai_text)
 	VALUES (%s,%s,%s,%s)
@@ -85,7 +85,7 @@ def insert_file(id,path,text):
 	conn = psycopg2.connect(conn_string)
 	cursor = conn.cursor()
 
-	data = (id, path.strip("your_CSV_files/"), os.stat(path).st_size, text)
+	data = (id, name, size, text)
 	cursor.execute(query,data)
 
 	fetch = cursor.fetchone()
@@ -203,15 +203,16 @@ def get_user_files(id):
 
 	vector = cursor.fetchall()
 
+	return_str = ""
 	if get_all_cached_files(id) != []:
-		get_text(get_all_cached_files(id),"redis")
+		return_str= get_text(get_all_cached_files(id),"redis")
 	else:
-		get_text(vector,None)
+		return_str = get_text(vector,None)
 	
 	
 	conn.close()
 
-	return vector 
+	return return_str
 
 def init_tables():
 
@@ -224,6 +225,8 @@ def init_tables():
 	# do one for files
 
 def get_text(arr,option):
+
+
 
 	if arr == []:
 		return None
@@ -244,37 +247,50 @@ def get_text(arr,option):
 
 			counter+=1
 
-	else:
-		content_blocks = [f"submission{i} \n {''.join(map(str,"file_name: " + item[0])) + ''.join(map(str,", file_size: " + str(item[1]))) +  ''.join(map(str," \nai_text: \n" + item[2]))}\n\n" for i, item in enumerate(arr)]
+	if content_blocks == []:
+		content_blocks = [f"submission{i} \n {''.join(map(str,'file_name: ' + item[0])) + ''.join(map(str,', file_size: ' + str(item[1])))+  ''.join(map(str,' \nai_text: \n' + item[2]))}\n\n" for i, item in enumerate(arr)]
 
 	all_content = "".join(content_blocks)
 
-	with open(f"{output_folder_text}/ai_text.txt{time.time()}",'w') as file:
-		file.write(all_content)
+	
 
-	return None
-
-init_tables()
-
-# get_text([('',), ('GROWTOPIA GG',), ('GROWTOPIA GG',)])
+	return all_content
 
 
+def get_user_id(email):
 
-# get_user_files(3)
+	query = f'''SELECT user_id
+		FROM USERS
+		where email = '{email}'
+	'''
+
+	conn = psycopg2.connect(conn_string)
+	cursor = conn.cursor()
+	cursor.execute(query)
+	id = cursor.fetchone()[0]
+
+	conn.close()
+
+	return id
+
+def get_user_info(email):
+
+	id = get_user_id(email)
+	query = f'''SELECT user_id,email,date_joined
+		FROM USERS
+		where email = '{email}'
+	'''
+
+	conn = psycopg2.connect(conn_string)
+	cursor = conn.cursor()
+	cursor.execute(query)
+	info = cursor.fetchall()[0]
+
+	conn.close()
+
+	return info
+	
 
 
 
-# insert_user("brian@gmail.com","fella","sha512")
 
-# insert_user("andrew@gmail.com","fella","sha256")
-
-# insert_user("daniel@gmail.com","fella","argon2")
-
-# log_on("andrew@gmail.com","fella")
-
-"""GENERAL LOGIC: LET USERS USE THE WEB APP, UPON COMPLETION (MAYBE COUNT LIKE 6-7 COMPLETIONS) AND AFTER
-EACH CYCLE PING TO USER IF THEY WANT AN ACCOUNT, IF YES THING KEEP USER DETAILS AND THEN KEEP THERE JUST
-LOGGED CSV FILE DATA IN THE FILES TABLE. ELSE LET USER HAVE ACCESS TO EVERYTHING BUT THEIR USER DATA
-AND FILE DATA WILL NOT BE STORED IN DB"""
-
-# add remove duplicate email functionality
