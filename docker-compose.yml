@@ -4,7 +4,9 @@ services:
   # Service 1: Your Python Script
   agent:
     build: .
-    image: streamlit-app               
+
+    image: streamlit-app   
+         
     volumes:
       - .:/app
 
