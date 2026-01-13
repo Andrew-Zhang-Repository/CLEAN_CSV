@@ -41,15 +41,24 @@ streamlit run main.py
 
 ![Web page with no login or input](https://github.com/user-attachments/assets/7d396478-2f26-48d9-998f-5335c9e75cbc)
 *Web page with no login or input*
+<br>
+<br>
+
 
 ![Web page with login but no input](https://github.com/user-attachments/assets/207f6f4c-f350-498f-a9e7-95a1e25809a6)
 *Web page with login but no input*
+<br>
+<br>
 
 ![User info and history retrieval](https://github.com/user-attachments/assets/f649fc04-e748-4cad-ab14-88b330ca1dbf)
 *User info and history retrieval*
+<br>
+<br>
 
 ![Process ran with no login](https://github.com/user-attachments/assets/0a2f132b-982b-43de-88f8-d0b8962379cb)
 *Process ran with no login*
+<br>
+<br>
 
 ![Process ran with login](https://github.com/user-attachments/assets/a450f833-07e1-4ba5-93d4-f6ef0b3f7f38)
 *Process ran with login*
