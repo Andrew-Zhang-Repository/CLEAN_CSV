@@ -43,10 +43,18 @@ streamlit run main.py
 *Web page with no login or input*
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
 
 
 ![Web page with login but no input](https://github.com/user-attachments/assets/207f6f4c-f350-498f-a9e7-95a1e25809a6)
 *Web page with login but no input*
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 
@@ -54,9 +62,17 @@ streamlit run main.py
 *User info and history retrieval*
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
 
 ![Process ran with no login](https://github.com/user-attachments/assets/0a2f132b-982b-43de-88f8-d0b8962379cb)
 *Process ran with no login*
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 
